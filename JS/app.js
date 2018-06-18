@@ -2,6 +2,8 @@ var scores, roundScore, activePlayer, gamePlaying;
 
 init();
 
+var lastDice;
+
 document.querySelector('.btn-roll').addEventListener('click', function () {
     if (gamePlaying) {
         //ran. number
@@ -13,14 +15,19 @@ document.querySelector('.btn-roll').addEventListener('click', function () {
         diceDom.src = 'Assets/dice-' + dice + '.png';
 
         //    update round score IF the rolled # was not a 1
-        if (dice !== 1) {
+        if (dice === 6 && lastDice === 6) {
+            //lose score
+            scores[activePlayer] = 0;
+            document.querySelector('#score-' + activePlayer).textContent = '0';
+            nextPlayer();
+        } else if (dice !== 1) {
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore;
         } else {
             //go to next player
             nextPlayer();
         }
-
+        lastDice = dice;
     }
 
 
